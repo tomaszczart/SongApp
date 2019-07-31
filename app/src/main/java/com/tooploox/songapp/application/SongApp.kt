@@ -9,7 +9,7 @@ import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
 
-class SongsApp : Application(), HasActivityInjector {
+class SongApp : Application(), HasActivityInjector {
     @Inject
     lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
 

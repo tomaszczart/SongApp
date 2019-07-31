@@ -1,6 +1,6 @@
 package com.tooploox.songapp.dagger
 
-import com.tooploox.songapp.application.SongsApp
+import com.tooploox.songapp.application.SongApp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -15,10 +15,10 @@ interface ApplicationComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(application: SongsApp): Builder
+        fun application(application: SongApp): Builder
 
         fun build(): ApplicationComponent
     }
 
-    fun inject(application: SongsApp)
+    fun inject(application: SongApp)
 }

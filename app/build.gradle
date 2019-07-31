@@ -17,8 +17,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            useProguard false
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "Song App Dev"
+        }
+        release {
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
+            resValue "string", "app_name", "Song App"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
