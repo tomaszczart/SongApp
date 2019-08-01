@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.tooploox.songapp.R
 import com.tooploox.songapp.common.BaseActivity
 import com.tooploox.songapp.databinding.ActivitySongsBinding
+import timber.log.Timber
 
 class SongsActivity : BaseActivity() {
 
@@ -14,5 +15,7 @@ class SongsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_songs)
+
+        Timber.d("TEST")
     }
 }
