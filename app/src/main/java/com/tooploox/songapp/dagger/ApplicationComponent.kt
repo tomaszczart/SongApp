@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 
+@ApplicationScope
 @Component(
     modules = [AndroidSupportInjectionModule::class,
         ApplicationModule::class,

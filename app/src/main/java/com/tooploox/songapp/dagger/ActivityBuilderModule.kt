@@ -9,7 +9,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilderModule {
 
     @SongsActivityScope
-    @ContributesAndroidInjector()
+    @ContributesAndroidInjector
     abstract fun contributeSongsActivityInjector(): SongsActivity
 
 }

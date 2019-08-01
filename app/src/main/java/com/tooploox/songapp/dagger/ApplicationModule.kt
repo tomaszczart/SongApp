@@ -1,5 +1,6 @@
 package com.tooploox.songapp.dagger
 
+import android.app.Application
 import android.content.Context
 import com.tooploox.songapp.application.SongApp
 import com.tooploox.songapp.songsScreen.dagger.SongsActivityComponent
@@ -11,8 +12,10 @@ class ApplicationModule {
 
     @Provides
     @ApplicationScope
-    fun provideContext(application: SongApp): Context {
-        return application.applicationContext
-    }
+    fun provideContext(application: SongApp): Context = application.applicationContext
+
+    @Provides
+    @ApplicationScope
+    fun provideApplication(application: SongApp): Application = application
 
 }
