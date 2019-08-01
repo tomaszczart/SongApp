@@ -4,13 +4,15 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable name="song"
-                  type="com.tooploox.songapp.network.models.SongItem"/>
-
+                  type="com.tooploox.songapp.songsScreen.recyclerView.SongItem"/>
     </data>
 
     <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -44,21 +46,21 @@
 
                 <TextView
                         tools:text="NF - The Search"
-                        android:text="@{song.artist + `-` + song.title}"
+                        android:text="@{song.artist + ` - ` + song.title}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/artistTextView"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:textSize="16sp"/>
 
                 <TextView
                         tools:text="2019"
-                        android:text="@{song.releaseYear}"
+                        app:numberAsText="@{song.releaseYear}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/releaseYearTextView"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"/>
             </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

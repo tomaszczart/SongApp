@@ -1,3 +1,4 @@
 <resources>
     <string name="album_cover">Album Cover</string>
+    <string name="nothing_to_show">Nothing to show...</string>
 </resources>

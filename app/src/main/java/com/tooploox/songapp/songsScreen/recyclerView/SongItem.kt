@@ -1,4 +1,4 @@
-package com.tooploox.songapp.network.models
+package com.tooploox.songapp.songsScreen.recyclerView
 
 /**
  * Item that will be displayed on the songs list.
