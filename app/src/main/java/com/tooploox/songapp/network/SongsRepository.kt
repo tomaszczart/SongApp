@@ -1,6 +1,10 @@
 package com.tooploox.songapp.network
 
-class SongsRepository {
+import com.tooploox.songapp.dagger.ApplicationScope
+import javax.inject.Inject
+
+@ApplicationScope
+class SongsRepository @Inject constructor() {
 
     /**
      * Types of databases:
@@ -18,6 +22,5 @@ class SongsRepository {
     fun search(query: String) {
 
     }
-
 
 }

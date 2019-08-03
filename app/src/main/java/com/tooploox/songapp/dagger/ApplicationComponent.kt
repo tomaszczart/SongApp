@@ -1,6 +1,7 @@
 package com.tooploox.songapp.dagger
 
 import com.tooploox.songapp.application.SongApp
+import com.tooploox.songapp.network.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -9,7 +10,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 @Component(
     modules = [AndroidSupportInjectionModule::class,
         ApplicationModule::class,
-        ActivityBuilderModule::class
+        ActivityBuilderModule::class,
+        NetworkModule::class
     ]
 )
 interface ApplicationComponent {
