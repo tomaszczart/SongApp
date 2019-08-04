@@ -18,7 +18,7 @@ class OfflineDbDao @Inject constructor(private val context: Context, private val
     private val listOfAllSongs: List<SongDao>? = null
 
     /**
-     * This method filters out songs from given artist.
+     * This method filters out songs by given phrase.
      */
     override suspend fun search(query: String): List<SongDao> = withContext(Dispatchers.Default) {
         return@withContext getAllSongs().filter { it.artist.contains(query) }
