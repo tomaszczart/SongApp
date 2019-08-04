@@ -11,6 +11,7 @@ import com.tooploox.songapp.databinding.ActivitySongsBinding
 import com.tooploox.songapp.songsScreen.recyclerView.SongsListAdapter
 import com.tooploox.songapp.songsScreen.viewModel.SongsActivityViewModel
 import com.tooploox.songapp.songsScreen.viewModel.SongsActivityViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class SongsActivity : BaseActivity() {
@@ -40,6 +41,25 @@ class SongsActivity : BaseActivity() {
             }
         }
 
+        //Observe offline switch
+        binding.viewModel?.useOffline?.observe(this, Observer {
+            Timber.d("useOffline: $it")
+            binding.viewModel?.useOfflineDatabase(it ?: false)
+        })
+
+        //Observe online switch
+        binding.viewModel?.useOnline?.observe(this, Observer {
+            Timber.d("useOnline: $it")
+            binding.viewModel?.useOnlineDatabase(it ?: false)
+        })
+
+        //perform search action after clicking the button
+        binding.searchButton.setOnClickListener {
+            val query = binding.textInputLayout.editText?.text.toString()
+            songsActivityViewModel.searchSong(query)
+        }
+
+        //Observe changes in the songs list and add them to recycler view
         songsActivityViewModel.songsList.observe(this, Observer {
             songsListAdapter.submitList(it)
         })

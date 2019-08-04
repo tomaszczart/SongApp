@@ -1,5 +1,12 @@
 <resources>
     <string name="album_cover">Album Cover</string>
-    <string name="nothing_to_show">Nothing to show...</string>
+    <string name="nothing_to_show">Nothing to show…</string>
     <string name="search">Search</string>
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
+    <string-array name="db_array">
+        <item>Offline</item>
+        <item>Online</item>
+        <item>Both</item>
+    </string-array>
 </resources>

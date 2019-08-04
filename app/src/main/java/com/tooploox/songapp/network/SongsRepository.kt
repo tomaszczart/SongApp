@@ -14,18 +14,23 @@ import javax.inject.Inject
 
 @ApplicationScope
 class SongsRepository @Inject constructor(
-    private val offlineDbDao: OfflineDbDao,
-    private val onlineDbDao: OnlineDbDao
+        private val offlineDbDao: OfflineDbDao,
+        private val onlineDbDao: OnlineDbDao
 ) {
+
+    val searchResults = MutableLiveData<List<SongDao>>()
+
     /**
-     * Types of databases:
-     * OFFLINE_DB - gets data from local json file (assets/songs-list.json)
-     * ONLINE_DB - gets data from iTunes API
-     * HYBRID_DB - gets data from both sources, ONLINE_DB and OFFLINE_DB
+     * If true offline database will be used
      */
-    enum class DatabaseType {
-        OFFLINE_DB, ONLINE_DB, HYBRID_DB
-    }
+    var useOffline = false
+    /**
+     * If true online database will be used
+     */
+    var useOnline = false
+    /**
+     * If both are true results from offline and online requests will be merged.
+     */
 
     /**
      * This is the main scope for all coroutines launched by SongsRepository.
@@ -33,23 +38,29 @@ class SongsRepository @Inject constructor(
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Default + job)
 
-    /* Currently set source that data is taken from */
-    var selectedDatabase: DatabaseType = DatabaseType.OFFLINE_DB
-
+    /**
+     * This method calls selected database and returns list of songs.
+     */
     fun search(query: String): LiveData<List<SongDao>> {
 
-        val allSongsLiveData = MutableLiveData<List<SongDao>>()
-
         coroutineScope.launch {
+            val offlineData =
+                    if (useOffline) offlineDbDao.search(query) else listOf()
+            val onlineData =
+                    if (useOnline) onlineDbDao.search(query) else listOf()
 
-            val offlineData = offlineDbDao.search(query)
-            val onlineData = onlineDbDao.search(query)
             val result = offlineData.toMutableList().apply { addAll(onlineData) }
-            allSongsLiveData.postValue(result)
+            searchResults.postValue(result)
         }
 
-        return allSongsLiveData
+        return searchResults
     }
 
+    /**
+     * Cleanup when destroying the object.
+     */
+    fun cancel() {
+        job.cancel()
+    }
 
 }
