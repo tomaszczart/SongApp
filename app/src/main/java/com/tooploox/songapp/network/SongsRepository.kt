@@ -3,6 +3,7 @@ package com.tooploox.songapp.network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.tooploox.songapp.dagger.ApplicationScope
+import com.tooploox.songapp.network.databases.SongDao
 import com.tooploox.songapp.network.databases.offline.OfflineDbDao
 import com.tooploox.songapp.network.databases.offline.SongOfflineDto
 import kotlinx.coroutines.CoroutineScope
@@ -33,9 +34,9 @@ class SongsRepository @Inject constructor(private val offlineDbDao: OfflineDbDao
     /* Currently set source that data is taken from */
     var selectedDatabase: DatabaseType = DatabaseType.OFFLINE_DB
 
-    fun search(query: String): LiveData<List<SongOfflineDto>> {
+    fun search(query: String): LiveData<List<SongDao>> {
 
-        val allSongsLiveData = MutableLiveData<List<SongOfflineDto>>()
+        val allSongsLiveData = MutableLiveData<List<SongDao>>()
 
         coroutineScope.launch {
             allSongsLiveData.postValue(offlineDbDao.search(query))

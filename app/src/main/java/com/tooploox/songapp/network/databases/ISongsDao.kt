@@ -6,5 +6,5 @@ interface ISongsDao {
     /**
      * This method filters out songs from given artist.
      */
-    suspend fun search(query: String): List<SongOfflineDto>
+    suspend fun search(query: String): List<SongDao>
 }
