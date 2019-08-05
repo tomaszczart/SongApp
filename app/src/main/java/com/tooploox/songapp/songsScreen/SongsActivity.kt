@@ -27,7 +27,7 @@ class SongsActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_songs)
 
         songsActivityViewModel =
-            ViewModelProviders.of(this, songsActivityViewModelFactory).get(SongsActivityViewModel::class.java)
+                ViewModelProviders.of(this, songsActivityViewModelFactory).get(SongsActivityViewModel::class.java)
 
         val songsListAdapter = SongsListAdapter(this)
 
@@ -39,6 +39,8 @@ class SongsActivity : BaseActivity() {
                 layoutManager = LinearLayoutManager(context)
                 adapter = songsListAdapter
             }
+            //do not allow to refresh by swipe
+            swipeToRefresh.isEnabled = false
         }
 
         //Observe offline switch
@@ -55,7 +57,7 @@ class SongsActivity : BaseActivity() {
 
         //perform search action after clicking the button
         binding.searchButton.setOnClickListener {
-            val query = binding.textInputLayout.editText?.text.toString()
+            val query = binding.queryPhrase.editText?.text.toString()
             songsActivityViewModel.searchSong(query)
         }
 
@@ -64,5 +66,9 @@ class SongsActivity : BaseActivity() {
             songsListAdapter.submitList(it)
         })
 
+        //show/hide loading indicator
+        songsActivityViewModel.loadingSongs.observe(this, Observer {
+            binding.swipeToRefresh.isRefreshing = it
+        })
     }
 }

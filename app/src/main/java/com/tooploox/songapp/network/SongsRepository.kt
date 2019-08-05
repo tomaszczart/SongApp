@@ -19,6 +19,7 @@ class SongsRepository @Inject constructor(
 ) {
 
     val searchResults = MutableLiveData<List<SongDto>>()
+    val loadingSongs = MutableLiveData<Boolean>()
 
     /**
      * If true offline database will be used
@@ -43,14 +44,19 @@ class SongsRepository @Inject constructor(
      */
     fun search(query: String): LiveData<List<SongDto>> {
 
-        coroutineScope.launch {
-            val offlineData =
-                    if (useOffline) offlineDbDao.search(query) else listOf()
-            val onlineData =
-                    if (useOnline) onlineDbDao.search(query) else listOf()
+        if (loadingSongs.value != true) {
 
-            val result = offlineData.toMutableList().apply { addAll(onlineData) }
-            searchResults.postValue(result)
+            coroutineScope.launch {
+                loadingSongs.postValue(true)
+                val offlineData =
+                        if (useOffline) offlineDbDao.search(query) else listOf()
+                val onlineData =
+                        if (useOnline) onlineDbDao.search(query) else listOf()
+
+                val result = offlineData.toMutableList().apply { addAll(onlineData) }
+                loadingSongs.postValue(false)
+                searchResults.postValue(result)
+            }
         }
 
         return searchResults
