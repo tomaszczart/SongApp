@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.tooploox.songapp.R
 import com.tooploox.songapp.common.BaseActivity
 import com.tooploox.songapp.databinding.ActivitySongsBinding
@@ -69,6 +70,11 @@ class SongsActivity : BaseActivity() {
         //show/hide loading indicator
         songsActivityViewModel.loadingSongs.observe(this, Observer {
             binding.swipeToRefresh.isRefreshing = it
+        })
+
+        //how error messages
+        songsActivityViewModel.errors.observe(this, Observer { errorMessage ->
+            Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
         })
     }
 }

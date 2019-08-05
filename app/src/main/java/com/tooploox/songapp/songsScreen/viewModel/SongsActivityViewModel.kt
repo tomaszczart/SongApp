@@ -27,7 +27,10 @@ class SongsActivityViewModel @Inject constructor(app: Application, private val s
         it.map { songOfflineDto -> SongItem(songOfflineDto.artist, songOfflineDto.title, songOfflineDto.releaseYear) }
     }
 
+    //live data for indicating loading status
     val loadingSongs = songsRepository.loadingSongs
+    //live data for emitting errors
+    val errors = songsRepository.errors
 
     init {
         //set online bd enabled

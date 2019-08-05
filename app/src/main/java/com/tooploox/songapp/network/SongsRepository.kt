@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @ApplicationScope
@@ -20,6 +21,9 @@ class SongsRepository @Inject constructor(
 
     val searchResults = MutableLiveData<List<SongDto>>()
     val loadingSongs = MutableLiveData<Boolean>()
+
+    //For emitting error messages
+    val errors = MutableLiveData<String>()
 
     /**
      * If true offline database will be used
@@ -46,14 +50,28 @@ class SongsRepository @Inject constructor(
 
         if (loadingSongs.value != true) {
 
+            val result = mutableListOf<SongDto>()
+
             coroutineScope.launch {
                 loadingSongs.postValue(true)
-                val offlineData =
-                        if (useOffline) offlineDbDao.search(query) else listOf()
-                val onlineData =
-                        if (useOnline) onlineDbDao.search(query) else listOf()
+                if (useOffline) {
+                    try {
+                        result.addAll(offlineDbDao.search(query))
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                        errors.postValue(e.localizedMessage)
+                    }
+                }
+                if (useOnline) {
+                    try {
+                        result.addAll(onlineDbDao.search(query))
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                        errors.postValue(e.localizedMessage)
+                    }
+                }
 
-                val result = offlineData.toMutableList().apply { addAll(onlineData) }
+                Timber.d("Results $result")
                 loadingSongs.postValue(false)
                 searchResults.postValue(result)
             }
