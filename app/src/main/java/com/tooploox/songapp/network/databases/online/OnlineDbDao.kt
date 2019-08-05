@@ -2,7 +2,7 @@ package com.tooploox.songapp.network.databases.online
 
 import com.tooploox.songapp.BuildConfig
 import com.tooploox.songapp.network.databases.ISongsDao
-import com.tooploox.songapp.network.databases.SongDao
+import com.tooploox.songapp.network.databases.SongDto
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,9 +13,9 @@ class OnlineDbDao @Inject constructor(private val appleiTunesService: AppleiTune
     /**
      * This method filters out songs by given phrase.
      */
-    override suspend fun search(query: String): List<SongDao> =
+    override suspend fun search(query: String): List<SongDto> =
             appleiTunesService.getSongs(query).results.map {
-                SongDao(it.artistName ?: "", it.trackName ?: "", parseYear(it.releaseDate ?: ""))
+                SongDto(it.artistName ?: "", it.trackName ?: "", parseYear(it.releaseDate ?: ""))
             }
 
     /**

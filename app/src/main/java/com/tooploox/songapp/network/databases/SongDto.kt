@@ -1,6 +1,6 @@
 package com.tooploox.songapp.network.databases
 
-data class SongDao(
+data class SongDto(
     val artist: String,
     val title: String,
     val releaseYear: Int

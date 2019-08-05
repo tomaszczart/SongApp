@@ -2,6 +2,7 @@ package com.tooploox.songapp.songsScreen.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.tooploox.songapp.network.SongsRepository
@@ -22,7 +23,7 @@ class SongsActivityViewModel @Inject constructor(app: Application, private val s
      */
     val queryText = MutableLiveData<String>()
 
-    val songsList = Transformations.map(songsRepository.searchResults) {
+    val songsList: LiveData<List<SongItem>> = Transformations.map(songsRepository.searchResults) {
         it.map { songOfflineDto -> SongItem(songOfflineDto.artist, songOfflineDto.title, songOfflineDto.releaseYear) }
     }
 
