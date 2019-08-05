@@ -1,6 +1,8 @@
 package com.tooploox.songapp.songsScreen
 
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,7 +30,7 @@ class SongsActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_songs)
 
         songsActivityViewModel =
-                ViewModelProviders.of(this, songsActivityViewModelFactory).get(SongsActivityViewModel::class.java)
+            ViewModelProviders.of(this, songsActivityViewModelFactory).get(SongsActivityViewModel::class.java)
 
         val songsListAdapter = SongsListAdapter(this)
 
@@ -60,6 +62,10 @@ class SongsActivity : BaseActivity() {
         binding.searchButton.setOnClickListener {
             val query = binding.queryPhrase.editText?.text.toString()
             songsActivityViewModel.searchSong(query)
+            //hide keyboard
+            binding.queryPhrase.clearFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.queryPhrase.windowToken, 0)
         }
 
         //Observe changes in the songs list and add them to recycler view

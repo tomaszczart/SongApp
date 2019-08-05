@@ -71,6 +71,9 @@ class SongsRepository @Inject constructor(
                     }
                 }
 
+                //sort results by artist
+                result.sortBy { it.artist }
+
                 Timber.d("Results $result")
                 loadingSongs.postValue(false)
                 searchResults.postValue(result)
